@@ -1,18 +1,12 @@
 CC = gcc
 #CFLAGS = -g
-
-#On Windows.
-TARGET = sort_test.exe
-RM = del
-
-#On Linux.
-#TARGET = sort_test
-#RM = rm
+TARGET = sort_test
 
 all: sort_test.o sort.o
 	$(CC) $(CFLAGS) -o $(TARGET) $^
 	
 clean :
-	$(RM) *.o $(TARGET)
+	@rm *.o $(TARGET)
+	@del *.o $(TARGET)
 	
 .PHONY: clean
