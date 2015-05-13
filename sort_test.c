@@ -28,7 +28,7 @@
 
 #define ARRAY_SIZE 100000U
 
-#define qsort_wrapper(TYPE_T, ...) qsort(__VA_ARGS__, sizeof(TYPE_T), compare)
+//#define qsort_wrapper(TYPE_T, ...) qsort(__VA_ARGS__, sizeof(TYPE_T), compare)
 
 DATA_T qsort_data[ARRAY_SIZE];
 DATA_T bubble_data[ARRAY_SIZE];
@@ -36,9 +36,14 @@ DATA_T insert_data[ARRAY_SIZE];
 DATA_T select_data[ARRAY_SIZE];
 DATA_T quick_data[ARRAY_SIZE];
 DATA_T merge_data[ARRAY_SIZE];
+DATA_T heap_data[ARRAY_SIZE];
 
 int compare(const void *a, const void *b) {
 	return *((DATA_T *) a) > *((DATA_T *) b) ? 1 : -1;
+}
+
+void qsort_wrapper(DATA_T array[], unsigned int size) {
+	qsort(array, size, sizeof(DATA_T), compare);
 }
 
 int check(DATA_T to_check[], DATA_T answer[], unsigned int size) {
@@ -50,64 +55,45 @@ int check(DATA_T to_check[], DATA_T answer[], unsigned int size) {
 	return 0;
 }
 
-int main(void) {
+void sort_test(void (*sort)(DATA_T*, unsigned int), DATA_T* data,
+		DATA_T* answer, unsigned int size, char *name) {
 	clock_t start, end;
+
+	start = clock();
+	sort(data, size);
+	end = clock();
+
+	printf("%s finished, total-time:\t%.4fs\n", name,
+			(double) (end - start) / CLOCKS_PER_SEC);
+
+	if (check(data, answer, ARRAY_SIZE) != 0)
+		printf("%s failed\n", name);
+
+}
+
+int main(void) {
+	srand((unsigned) time(NULL));
 
 	unsigned int i;
 	for (i = 0; i < ARRAY_SIZE; i++) {
 		qsort_data[i] = (DATA_T) rand();
 		bubble_data[i] = qsort_data[i];
-		select_data[i] = bubble_data[i];
-		quick_data[i] = select_data[i];
-		merge_data[i] = quick_data[i];
-		insert_data[i] = merge_data[i];
+		select_data[i] = qsort_data[i];
+		quick_data[i] = qsort_data[i];
+		merge_data[i] = qsort_data[i];
+		insert_data[i] = qsort_data[i];
+		heap_data[i] = qsort_data[i];
 	}
 
-	start = clock();
-	qsort_wrapper(DATA_T, qsort_data, ARRAY_SIZE);
-	end = clock();
-	printf("qsort finished, total-time:\t\t%.4fs\n",
-			(double) (end - start) / CLOCKS_PER_SEC);
+	printf("data size:\t%d\n\n", ARRAY_SIZE);
 
-	start = clock();
-	quick_sort(quick_data, ARRAY_SIZE);
-	end = clock();
-	printf("quick_sort finished, total-time:\t%.4fs\n",
-			(double) (end - start) / CLOCKS_PER_SEC);
-	if (check(quick_data, qsort_data, ARRAY_SIZE) != 0)
-		printf("quick_sort failed\n");
-
-	start = clock();
-	merge_sort(merge_data, ARRAY_SIZE);
-	end = clock();
-	printf("merge_sort finished, total-time:\t%.4fs\n",
-			(double) (end - start) / CLOCKS_PER_SEC);
-	if (check(merge_data, qsort_data, ARRAY_SIZE) != 0)
-		printf("merge_sort failed\n");
-
-	start = clock();
-	insert_sort(insert_data, ARRAY_SIZE);
-	end = clock();
-	printf("insert_sort finished, total-time:\t%.4fs\n",
-			(double) (end - start) / CLOCKS_PER_SEC);
-	if (check(insert_data, qsort_data, ARRAY_SIZE) != 0)
-		printf("insert_sort failed\n");
-
-	start = clock();
-	select_sort(select_data, ARRAY_SIZE);
-	end = clock();
-	printf("select_sort finished, total-time:\t%.4fs\n",
-			(double) (end - start) / CLOCKS_PER_SEC);
-	if (check(select_data, qsort_data, ARRAY_SIZE) != 0)
-		printf("select_sort failed\n");
-
-	start = clock();
-	bubble_sort(bubble_data, ARRAY_SIZE);
-	end = clock();
-	printf("bubble_sort finished, total-time:\t%.4fs\n",
-			(double) (end - start) / CLOCKS_PER_SEC);
-	if (check(bubble_data, qsort_data, ARRAY_SIZE) != 0)
-		printf("bubble_sort failed\n");
+	sort_test(qsort_wrapper, qsort_data, qsort_data, ARRAY_SIZE, "qsort(c library)");
+	sort_test(quick_sort, quick_data, qsort_data, ARRAY_SIZE, "quick_sort");
+	sort_test(heap_sort, heap_data, qsort_data, ARRAY_SIZE, "quick_sort");
+	sort_test(merge_sort, merge_data, qsort_data, ARRAY_SIZE, "merge_sort");
+	sort_test(insert_sort, insert_data, qsort_data, ARRAY_SIZE, "insert_sort");
+	sort_test(select_sort, select_data, qsort_data, ARRAY_SIZE, "select_sort");
+	sort_test(bubble_sort, bubble_data, qsort_data, ARRAY_SIZE, "bubble_sort");
 
 	return 0;
 }

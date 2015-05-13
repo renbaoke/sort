@@ -26,6 +26,7 @@
 void bubble_sort(DATA_T array[], unsigned int size) {
 	DATA_T temp;
 	unsigned i, j;
+
 	for (i = 0; i < size - 1; i++)
 		for (j = 0; j < size - i - 1; j++)
 			if (array[j] > array[j + 1]) {
@@ -38,6 +39,7 @@ void bubble_sort(DATA_T array[], unsigned int size) {
 void insert_sort(DATA_T array[], unsigned int size) {
 	DATA_T temp;
 	unsigned i, j, k;
+
 	for (i = 1; i < size; i++) {
 		temp = array[i];
 
@@ -55,6 +57,7 @@ void insert_sort(DATA_T array[], unsigned int size) {
 void select_sort(DATA_T array[], unsigned int size) {
 	DATA_T temp;
 	unsigned int i, j;
+
 	for (i = 0; i < size - 1; i++)
 		for (j = i + 1; j < size; j++)
 			if (array[i] > array[j]) {
@@ -70,10 +73,13 @@ static int partition(DATA_T array[], unsigned int low, unsigned int high) {
 	while (low < high) {
 		while (low < high && array[high] >= pivot)
 			high--;
+
 		if (low < high)
 			array[low++] = array[high];
+
 		while (low < high && array[low] <= pivot)
 			low++;
+
 		if (low < high)
 			array[high--] = array[low];
 	}
@@ -85,6 +91,7 @@ static int partition(DATA_T array[], unsigned int low, unsigned int high) {
 
 static void _quick_sort(DATA_T array[], unsigned int low, unsigned int high) {
 	DATA_T pivot;
+
 	if (low < high) {
 		pivot = partition(array, low, high);
 		_quick_sort(array, low, pivot);
@@ -123,6 +130,7 @@ static void merge(DATA_T array[], unsigned int low, unsigned int middle,
 
 static void _merge_sort(DATA_T array[], unsigned int low, unsigned int high) {
 	unsigned int middle;
+
 	if (low < high) {
 		middle = (low + high) / 2;
 		_merge_sort(array, low, middle);
@@ -133,4 +141,45 @@ static void _merge_sort(DATA_T array[], unsigned int low, unsigned int high) {
 
 void merge_sort(DATA_T array[], unsigned int size) {
 	_merge_sort(array, 0, size - 1);
+}
+
+static void heap_adjust(DATA_T array[], unsigned int root, unsigned int size) {
+	DATA_T temp;
+	unsigned int left = 2 * root + 1;
+	unsigned int right = 2 * root + 2;
+
+	if (right < size && array[right] > array[left]) {
+		if (array[right] > array[root]) {
+			temp = array[root];
+			array[root] = array[right];
+			array[right] = temp;
+
+			heap_adjust(array, right, size);
+		}
+	} else if (left < size) {
+		if (array[left] > array[root]) {
+			temp = array[root];
+			array[root] = array[left];
+			array[left] = temp;
+
+			heap_adjust(array, left, size);
+		}
+	} else
+		return;
+}
+
+void heap_sort(DATA_T array[], unsigned int size) {
+	DATA_T temp;
+
+	unsigned int i;
+	for (i = size / 2; i > 0; i--)
+		heap_adjust(array, i - 1, size);
+
+	for (i = size - 1; i > 0; i--) {
+		temp = array[0];
+		array[0] = array[i];
+		array[i] = temp;
+
+		heap_adjust(array, 0, i);
+	}
 }

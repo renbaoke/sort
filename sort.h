@@ -26,12 +26,13 @@
 
 #include <stdlib.h>
 
-#define DATA_T double
+#define DATA_T int
 
 void bubble_sort(DATA_T array[], unsigned int size);
 void insert_sort(DATA_T array[], unsigned int size);
 void select_sort(DATA_T array[], unsigned int size);
 void quick_sort(DATA_T array[], unsigned int size);
 void merge_sort(DATA_T array[], unsigned int size);
+void heap_sort(DATA_T array[], unsigned int size);
 
 #endif /* SORT_H_ */

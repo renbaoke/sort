@@ -10,8 +10,8 @@ endif
 
 all: sort_test.o sort.o
 	$(CC) $(CFLAGS) -o $(TARGET) $^
-	
+
 clean :
 	$(RM) *.o
-	
+
 .PHONY: clean
