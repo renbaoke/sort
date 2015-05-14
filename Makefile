@@ -8,8 +8,9 @@ else
 RM = rm
 endif
 
-all: sort_test.o sort.o
-	$(CC) $(CFLAGS) -o $(TARGET) $^
+all: sort_test
+
+sort_test: sort_test.o sort.o
 
 clean :
 	$(RM) *.o

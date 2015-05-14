@@ -63,7 +63,7 @@ void sort_test(void (*sort)(DATA_T*, unsigned int), DATA_T* data,
 	sort(data, size);
 	end = clock();
 
-	printf("%s finished, total-time:\t%.4fs\n", name,
+	printf("%s finished, total-time: %.4fs\n", name,
 			(double) (end - start) / CLOCKS_PER_SEC);
 
 	if (check(data, answer, ARRAY_SIZE) != 0)
@@ -76,7 +76,7 @@ int main(void) {
 
 	unsigned int i;
 	for (i = 0; i < ARRAY_SIZE; i++) {
-		qsort_data[i] = (DATA_T) rand();
+		qsort_data[i] = (DATA_T)rand() * (DATA_T)rand();
 		bubble_data[i] = qsort_data[i];
 		select_data[i] = qsort_data[i];
 		quick_data[i] = qsort_data[i];
@@ -85,11 +85,11 @@ int main(void) {
 		heap_data[i] = qsort_data[i];
 	}
 
-	printf("data size:\t%d\n\n", ARRAY_SIZE);
+	printf("data size: %d\n\n", ARRAY_SIZE);
 
-	sort_test(qsort_wrapper, qsort_data, qsort_data, ARRAY_SIZE, "qsort(c library)");
+	sort_test(qsort_wrapper, qsort_data, qsort_data, ARRAY_SIZE, "qsort");
 	sort_test(quick_sort, quick_data, qsort_data, ARRAY_SIZE, "quick_sort");
-	sort_test(heap_sort, heap_data, qsort_data, ARRAY_SIZE, "quick_sort");
+	sort_test(heap_sort, heap_data, qsort_data, ARRAY_SIZE, "heap_sort");
 	sort_test(merge_sort, merge_data, qsort_data, ARRAY_SIZE, "merge_sort");
 	sort_test(insert_sort, insert_data, qsort_data, ARRAY_SIZE, "insert_sort");
 	sort_test(select_sort, select_data, qsort_data, ARRAY_SIZE, "select_sort");

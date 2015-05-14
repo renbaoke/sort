@@ -26,7 +26,7 @@
 
 #include <stdlib.h>
 
-#define DATA_T int
+#define DATA_T float
 
 void bubble_sort(DATA_T array[], unsigned int size);
 void insert_sort(DATA_T array[], unsigned int size);
