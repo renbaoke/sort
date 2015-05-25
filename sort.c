@@ -23,9 +23,9 @@
 
 #include "sort.h"
 
-void bubble_sort(DATA_T array[], unsigned int size) {
+void bubble_sort(DATA_T array[], int size) {
 	DATA_T temp;
-	unsigned i, j;
+	int i, j;
 
 	for (i = 0; i < size - 1; i++)
 		for (j = 0; j < size - i - 1; j++)
@@ -36,9 +36,9 @@ void bubble_sort(DATA_T array[], unsigned int size) {
 			}
 }
 
-void insert_sort(DATA_T array[], unsigned int size) {
+void insert_sort(DATA_T array[], int size) {
 	DATA_T temp;
-	unsigned i, j, k;
+	int i, j, k;
 
 	for (i = 1; i < size; i++) {
 		temp = array[i];
@@ -54,9 +54,9 @@ void insert_sort(DATA_T array[], unsigned int size) {
 	}
 }
 
-void select_sort(DATA_T array[], unsigned int size) {
+void select_sort(DATA_T array[], int size) {
 	DATA_T temp;
-	unsigned int i, j;
+	int i, j;
 
 	for (i = 0; i < size - 1; i++)
 		for (j = i + 1; j < size; j++)
@@ -67,7 +67,7 @@ void select_sort(DATA_T array[], unsigned int size) {
 			}
 }
 
-static int partition(DATA_T array[], unsigned int low, unsigned int high) {
+static int partition(DATA_T array[], int low, int high) {
 	DATA_T pivot = array[low];
 
 	while (low < high) {
@@ -89,7 +89,7 @@ static int partition(DATA_T array[], unsigned int low, unsigned int high) {
 	return low;
 }
 
-static void _quick_sort(DATA_T array[], unsigned int low, unsigned int high) {
+static void _quick_sort(DATA_T array[], int low, int high) {
 	DATA_T pivot;
 
 	if (low < high) {
@@ -99,17 +99,16 @@ static void _quick_sort(DATA_T array[], unsigned int low, unsigned int high) {
 	}
 }
 
-void quick_sort(DATA_T array[], unsigned int size) {
+void quick_sort(DATA_T array[], int size) {
 	_quick_sort(array, 0, size - 1);
 }
 
-static void merge(DATA_T array[], unsigned int low, unsigned int middle,
-		unsigned int high) {
-	unsigned int first = low;
-	unsigned int second = middle + 1;
+static void merge(DATA_T array[], int low, int middle, int high) {
+	int first = low;
+	int second = middle + 1;
 	DATA_T *temp = (DATA_T *) malloc((high - low + 1) * sizeof(DATA_T));
 
-	unsigned int i = 0;
+	int i = 0;
 	while (first <= middle && second <= high)
 		temp[i++] =
 				array[first] < array[second] ? array[first++] : array[second++];
@@ -128,8 +127,8 @@ static void merge(DATA_T array[], unsigned int low, unsigned int middle,
 	free(temp);
 }
 
-static void _merge_sort(DATA_T array[], unsigned int low, unsigned int high) {
-	unsigned int middle;
+static void _merge_sort(DATA_T array[], int low, int high) {
+	int middle;
 
 	if (low < high) {
 		middle = (low + high) / 2;
@@ -139,14 +138,14 @@ static void _merge_sort(DATA_T array[], unsigned int low, unsigned int high) {
 	}
 }
 
-void merge_sort(DATA_T array[], unsigned int size) {
+void merge_sort(DATA_T array[], int size) {
 	_merge_sort(array, 0, size - 1);
 }
 
-static void heap_adjust(DATA_T array[], unsigned int root, unsigned int size) {
+static void heap_adjust(DATA_T array[], int root, int size) {
 	DATA_T temp;
-	unsigned int left = 2 * root + 1;
-	unsigned int right = 2 * root + 2;
+	int left = 2 * root + 1;
+	int right = 2 * root + 2;
 
 	if (right < size && array[right] > array[left]) {
 		if (array[right] > array[root]) {
@@ -168,12 +167,12 @@ static void heap_adjust(DATA_T array[], unsigned int root, unsigned int size) {
 		return;
 }
 
-void heap_sort(DATA_T array[], unsigned int size) {
+void heap_sort(DATA_T array[], int size) {
 	DATA_T temp;
 
-	unsigned int i;
-	for (i = size / 2; i > 0; i--)
-		heap_adjust(array, i - 1, size);
+	int i;
+	for (i = size / 2; i >= 0; i--)
+		heap_adjust(array, i, size);
 
 	for (i = size - 1; i > 0; i--) {
 		temp = array[0];

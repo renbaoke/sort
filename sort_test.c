@@ -26,9 +26,7 @@
 #include <time.h>
 #include "sort.h"
 
-#define ARRAY_SIZE 100000U
-
-//#define qsort_wrapper(TYPE_T, ...) qsort(__VA_ARGS__, sizeof(TYPE_T), compare)
+#define ARRAY_SIZE 100000
 
 DATA_T qsort_data[ARRAY_SIZE];
 DATA_T bubble_data[ARRAY_SIZE];
@@ -42,12 +40,12 @@ int compare(const void *a, const void *b) {
 	return *((DATA_T *) a) > *((DATA_T *) b) ? 1 : -1;
 }
 
-void qsort_wrapper(DATA_T array[], unsigned int size) {
+void qsort_wrapper(DATA_T array[], int size) {
 	qsort(array, size, sizeof(DATA_T), compare);
 }
 
-int check(DATA_T to_check[], DATA_T answer[], unsigned int size) {
-	unsigned int i;
+int check(DATA_T to_check[], DATA_T answer[], int size) {
+	int i;
 	for (i = 0; i < size; i++)
 		if (to_check[i] != answer[i])
 			return -1;
@@ -55,8 +53,8 @@ int check(DATA_T to_check[], DATA_T answer[], unsigned int size) {
 	return 0;
 }
 
-void sort_test(void (*sort)(DATA_T*, unsigned int), DATA_T* data,
-		DATA_T* answer, unsigned int size, char *name) {
+void sort_test(void (*sort)(DATA_T*, int), DATA_T* data,
+		DATA_T* answer, int size, char *name) {
 	clock_t start, end;
 
 	start = clock();
@@ -74,7 +72,7 @@ void sort_test(void (*sort)(DATA_T*, unsigned int), DATA_T* data,
 int main(void) {
 	srand((unsigned) time(NULL));
 
-	unsigned int i;
+	int i;
 	for (i = 0; i < ARRAY_SIZE; i++) {
 		qsort_data[i] = (DATA_T)rand() * (DATA_T)rand();
 		bubble_data[i] = qsort_data[i];
@@ -85,7 +83,9 @@ int main(void) {
 		heap_data[i] = qsort_data[i];
 	}
 
-	printf("data size: %d\n\n", ARRAY_SIZE);
+	printf("data size: %d\n", ARRAY_SIZE);
+
+	printf("the first data:"DATA_P"\n\n", qsort_data[0]);
 
 	sort_test(qsort_wrapper, qsort_data, qsort_data, ARRAY_SIZE, "qsort");
 	sort_test(quick_sort, quick_data, qsort_data, ARRAY_SIZE, "quick_sort");

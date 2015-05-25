@@ -26,13 +26,14 @@
 
 #include <stdlib.h>
 
-#define DATA_T float
+#define DATA_T int
+#define DATA_P "%d"
 
-void bubble_sort(DATA_T array[], unsigned int size);
-void insert_sort(DATA_T array[], unsigned int size);
-void select_sort(DATA_T array[], unsigned int size);
-void quick_sort(DATA_T array[], unsigned int size);
-void merge_sort(DATA_T array[], unsigned int size);
-void heap_sort(DATA_T array[], unsigned int size);
+void bubble_sort(DATA_T array[], int size);
+void insert_sort(DATA_T array[], int size);
+void select_sort(DATA_T array[], int size);
+void quick_sort(DATA_T array[], int size);
+void merge_sort(DATA_T array[], int size);
+void heap_sort(DATA_T array[], int size);
 
 #endif /* SORT_H_ */

@@ -1,6 +1,5 @@
 CC = gcc
 #CFLAGS = -g
-TARGET = sort_test
 
 ifeq ($(OS),Windows_NT)
 RM = del
