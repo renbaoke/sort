@@ -23,8 +23,8 @@
 
 #include "sort.h"
 
-void bubble_sort(DATA_T array[], int size) {
-	DATA_T temp;
+void bubble_sort(int array[], int size) {
+	int temp;
 	int i, j;
 
 	for (i = 0; i < size - 1; i++)
@@ -36,8 +36,8 @@ void bubble_sort(DATA_T array[], int size) {
 			}
 }
 
-void insert_sort(DATA_T array[], int size) {
-	DATA_T temp;
+void insert_sort(int array[], int size) {
+	int temp;
 	int i, j, k;
 
 	for (i = 1; i < size; i++) {
@@ -54,8 +54,8 @@ void insert_sort(DATA_T array[], int size) {
 	}
 }
 
-void select_sort(DATA_T array[], int size) {
-	DATA_T temp;
+void select_sort(int array[], int size) {
+	int temp;
 	int i, j;
 
 	for (i = 0; i < size - 1; i++)
@@ -67,8 +67,8 @@ void select_sort(DATA_T array[], int size) {
 			}
 }
 
-static int partition(DATA_T array[], int low, int high) {
-	DATA_T pivot = array[low];
+static int partition(int array[], int low, int high) {
+	int pivot = array[low];
 
 	while (low < high) {
 		while (low < high && array[high] >= pivot)
@@ -89,8 +89,8 @@ static int partition(DATA_T array[], int low, int high) {
 	return low;
 }
 
-static void _quick_sort(DATA_T array[], int low, int high) {
-	DATA_T pivot;
+static void _quick_sort(int array[], int low, int high) {
+	int pivot;
 
 	if (low < high) {
 		pivot = partition(array, low, high);
@@ -99,14 +99,14 @@ static void _quick_sort(DATA_T array[], int low, int high) {
 	}
 }
 
-void quick_sort(DATA_T array[], int size) {
+void quick_sort(int array[], int size) {
 	_quick_sort(array, 0, size - 1);
 }
 
-static void merge(DATA_T array[], int low, int middle, int high) {
+static void merge(int array[], int low, int middle, int high) {
 	int first = low;
 	int second = middle + 1;
-	DATA_T *temp = (DATA_T *) malloc((high - low + 1) * sizeof(DATA_T));
+	int *temp = (int *) malloc((high - low + 1) * sizeof(int));
 
 	int i = 0;
 	while (first <= middle && second <= high)
@@ -127,7 +127,7 @@ static void merge(DATA_T array[], int low, int middle, int high) {
 	free(temp);
 }
 
-static void _merge_sort(DATA_T array[], int low, int high) {
+static void _merge_sort(int array[], int low, int high) {
 	int middle;
 
 	if (low < high) {
@@ -138,12 +138,12 @@ static void _merge_sort(DATA_T array[], int low, int high) {
 	}
 }
 
-void merge_sort(DATA_T array[], int size) {
+void merge_sort(int array[], int size) {
 	_merge_sort(array, 0, size - 1);
 }
 
-static void heap_adjust(DATA_T array[], int root, int size) {
-	DATA_T temp;
+static void heap_adjust(int array[], int root, int size) {
+	int temp;
 	int left = 2 * root + 1;
 	int right = 2 * root + 2;
 
@@ -167,8 +167,8 @@ static void heap_adjust(DATA_T array[], int root, int size) {
 		return;
 }
 
-void heap_sort(DATA_T array[], int size) {
-	DATA_T temp;
+void heap_sort(int array[], int size) {
+	int temp;
 
 	int i;
 	for (i = size / 2; i >= 0; i--)

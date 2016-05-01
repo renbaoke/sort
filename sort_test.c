@@ -28,23 +28,23 @@
 
 #define ARRAY_SIZE 100000
 
-DATA_T qsort_data[ARRAY_SIZE];
-DATA_T bubble_data[ARRAY_SIZE];
-DATA_T insert_data[ARRAY_SIZE];
-DATA_T select_data[ARRAY_SIZE];
-DATA_T quick_data[ARRAY_SIZE];
-DATA_T merge_data[ARRAY_SIZE];
-DATA_T heap_data[ARRAY_SIZE];
+int qsort_data[ARRAY_SIZE];
+int bubble_data[ARRAY_SIZE];
+int insert_data[ARRAY_SIZE];
+int select_data[ARRAY_SIZE];
+int quick_data[ARRAY_SIZE];
+int merge_data[ARRAY_SIZE];
+int heap_data[ARRAY_SIZE];
 
 int compare(const void *a, const void *b) {
-	return *((DATA_T *) a) > *((DATA_T *) b) ? 1 : -1;
+	return *((int *) a) > *((int *) b) ? 1 : -1;
 }
 
-void qsort_wrapper(DATA_T array[], int size) {
-	qsort(array, size, sizeof(DATA_T), compare);
+void qsort_wrapper(int array[], int size) {
+	qsort(array, size, sizeof(int), compare);
 }
 
-int check(DATA_T to_check[], DATA_T answer[], int size) {
+int check(int to_check[], int answer[], int size) {
 	int i;
 	for (i = 0; i < size; i++)
 		if (to_check[i] != answer[i])
@@ -53,15 +53,15 @@ int check(DATA_T to_check[], DATA_T answer[], int size) {
 	return 0;
 }
 
-void sort_test(void (*sort)(DATA_T*, int), DATA_T* data,
-		DATA_T* answer, int size, char *name) {
+void sort_test(void (*sort)(int*, int), int* data, int* answer, int size,
+		char *name) {
 	clock_t start, end;
 
 	start = clock();
 	sort(data, size);
 	end = clock();
 
-	printf("%s finished, total-time: %.4fs\n", name,
+	printf("%s finished, time taken: %.4fs\n", name,
 			(double) (end - start) / CLOCKS_PER_SEC);
 
 	if (check(data, answer, ARRAY_SIZE) != 0)
@@ -74,7 +74,7 @@ int main(void) {
 
 	int i;
 	for (i = 0; i < ARRAY_SIZE; i++) {
-		qsort_data[i] = (DATA_T)rand() * (DATA_T)rand();
+		qsort_data[i] = (int) rand() * (int) rand();
 		bubble_data[i] = qsort_data[i];
 		select_data[i] = qsort_data[i];
 		quick_data[i] = qsort_data[i];
@@ -84,8 +84,6 @@ int main(void) {
 	}
 
 	printf("data size: %d\n", ARRAY_SIZE);
-
-	printf("the first data:"DATA_P"\n\n", qsort_data[0]);
 
 	sort_test(qsort_wrapper, qsort_data, qsort_data, ARRAY_SIZE, "qsort");
 	sort_test(quick_sort, quick_data, qsort_data, ARRAY_SIZE, "quick_sort");
